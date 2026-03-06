@@ -1,0 +1,1955 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSD Brochure â€” Print Layout (All Slides)</title>
+  <!-- Wix Madefor — Cityscape Digital's own typeface, loaded directly from Wix's CDN -->
+  <style>
+    /* ── WIX MADEFOR DISPLAY (headings) ───────────────────────── */
+    @font-face {
+      font-family: 'madefor-display';
+      font-style: normal;
+      font-weight: 100 900;
+      src: url('https://static.parastorage.com/fonts/v2/26656ec7-c27d-4bdc-a9f4-6b498bbfad69/madefor-display.var.original.woff2') format('woff2 supports variations'),
+           url('https://static.parastorage.com/fonts/v2/26656ec7-c27d-4bdc-a9f4-6b498bbfad69/madefor-display.var.original.woff2') format('woff2-variations');
+      font-display: swap;
+    }
+
+    /* ── WIX MADEFOR TEXT (body copy) ─────────────────────────── */
+    @font-face {
+      font-family: 'madefor-text';
+      font-style: normal;
+      font-weight: 100 900;
+      src: url('https://static.parastorage.com/fonts/v2/f73e760d-c6b3-4659-9a8c-9ce1d76c1173/madefor-text.var.original.woff2') format('woff2 supports variations'),
+           url('https://static.parastorage.com/fonts/v2/f73e760d-c6b3-4659-9a8c-9ce1d76c1173/madefor-text.var.original.woff2') format('woff2-variations');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'madefor-text';
+      font-style: italic;
+      font-weight: 100 900;
+      src: url('https://static.parastorage.com/fonts/v2/19247d19-0454-4de8-b907-b818135794bd/madefor-text.var.original.woff2') format('woff2 supports variations'),
+           url('https://static.parastorage.com/fonts/v2/19247d19-0454-4de8-b907-b818135794bd/madefor-text.var.original.woff2') format('woff2-variations');
+      font-display: swap;
+    }
+  </style>
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM — Cityscape Digital Brochure
+       Tokens, base styles, component patterns
+    ============================================================ */
+    :root {
+      /* ── Backgrounds ──────────────────────────────────────── */
+      --bg-primary:    #080808;
+      --bg-surface:    #111111;
+      --bg-surface-b:  #0d0d0d;
+      --bg-surface-c:  #161616;
+
+      /* ── Text — Wix Madefor grey palette (dark-mode adapted) ─
+         Source: cityscapedigital.co.uk (Wix Madefor design system)
+         Cool-neutral greys, slightly blue-tinted, characteristic
+         of the Wix Madefor typographic system                    */
+      --text-primary:  #F4F4F4;   /* near-white, warm white       */
+      --text-secondary:#BEBEBE;   /* Wix mid-grey, readable body  */
+      --text-muted:    #868686;   /* Wix neutral muted, cool-grey */
+
+      /* ── Brand accents — retained from original deck ─────── */
+      --accent-amber:  #FFAB40;
+      --accent-teal:   #0097A7;
+      --accent-blue:   #4285F4;
+      --border:        #1e1e1e;
+
+      /* ── Typography — Wix Madefor font families ──────────── */
+      --font-display: 'madefor-display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      --font-body:    'madefor-text',    'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+      --slide-w: 1920px;
+      --slide-h: 1080px;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #000;
+      font-family: var(--font-body);
+      overflow: hidden;
+      color: var(--text-primary);
+    }
+
+    /* ---- Slideshow wrapper ---- */
+    .slideshow { width: 100vw; height: 100vh; position: relative; }
+
+    .slide {
+      position: absolute; inset: 0;
+      background: var(--bg-primary);
+      display: none;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+    .slide.active { display: flex; opacity: 1; }
+
+    /* ---- Navigation bar ---- */
+    .nav-bar {
+      position: fixed; bottom: 0; left: 0; right: 0;
+      height: 52px;
+      background: rgba(6,6,6,.97);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      gap: 18px; z-index: 9999;
+      backdrop-filter: blur(10px);
+    }
+    .nav-btn {
+      background: transparent;
+      border: 1px solid rgba(255,171,64,.35);
+      color: var(--accent-amber);
+      padding: 6px 22px;
+      font-family: var(--font-body);
+      font-size: 10px; font-weight: 400;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      cursor: pointer; transition: all .2s ease;
+    }
+    .nav-btn:hover { background: var(--accent-amber); color: #000; border-color: var(--accent-amber); }
+    .nav-btn:disabled { opacity: .3; cursor: default; }
+    .slide-counter { font-size: 11px; letter-spacing: 3px; color: var(--text-secondary); font-weight: 300; min-width: 72px; text-align: center; }
+    .slide-dots { display: flex; gap: 5px; align-items: center; }
+    .dot { width: 4px; height: 4px; background: #2a2a2a; border-radius: 50%; cursor: pointer; transition: all .25s; }
+    .dot.active { background: var(--accent-amber); width: 18px; border-radius: 2px; }
+
+    /* ============================================================
+       SHARED COMPONENTS
+    ============================================================ */
+    .amber-rule   { width: 52px; height: 3px; background: var(--accent-amber); flex-shrink: 0; }
+    .amber-rule-full { width: 100%; height: 2px; background: var(--accent-amber); }
+    .slide-top-rule { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--accent-amber); z-index: 10; }
+
+    .section-label {
+      font-size: 9px; letter-spacing: 4.5px;
+      color: var(--accent-amber); text-transform: uppercase; font-weight: 400;
+    }
+    .logo-mark { font-size: 9px; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; font-weight: 300; }
+    .page-num   { font-size: 10px; letter-spacing: 2px; color: var(--text-muted); font-weight: 300; }
+
+    /* Top bar (appears on content slides) */
+    .top-bar {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 28px 52px 0; flex-shrink: 0;
+    }
+
+    /* Slide title block */
+    .slide-title { font-size: 38px; font-weight: 600; line-height: 1.1; color: var(--text-primary); font-family: var(--font-display); }
+    .slide-subtitle { font-size: 16px; color: var(--text-secondary); font-weight: 300; line-height: 1.75; }
+
+    /* Callout card */
+    .callout {
+      background: var(--bg-surface); padding: 20px 22px;
+      border-left: 3px solid var(--accent-amber);
+    }
+    .callout-title { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-amber); font-weight: 600; margin-bottom: 8px; }
+    .callout-body  { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+
+    /* ── Actual media images ─────────────────────────────────── */
+    /* Real photo fills for .prod-img, .s3-right, .s1-right     */
+    .real-img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+    /* Gradient overlay on top of a real image (for readability) */
+    .img-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+    }
+    /* CSD logo sized for header strip */
+    .logo-img-sm {
+      height: 20px; width: auto;
+      opacity: 0.68; vertical-align: middle; display: inline-block;
+    }
+    /* CSD logo sized for Slide 1 footer */
+    .logo-img-lg {
+      height: 34px; width: auto; opacity: 0.9; display: inline-block;
+    }
+
+    /* Image placeholder */
+    .img-ph {
+      position: absolute; inset: 0;
+      background: linear-gradient(150deg, #0d0e1a 0%, #0a1428 55%, #040408 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .img-ph-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,171,64,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,171,64,.025) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    .img-ph-label { font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,.12); text-transform: uppercase; text-align: center; font-weight: 300; position: relative; z-index: 2; }
+
+    /* Check / cross tokens */
+    .ck  { color: #4CAF93; font-weight: 700; }
+    .cx  { color: #E57373; font-weight: 700; }
+    .hi  { color: var(--text-primary); font-weight: 600; }
+    .na  { color: var(--text-muted); }
+
+    /* ============================================================
+       SLIDE 1 — COVER
+    ============================================================ */
+    #slide-1 { flex-direction: row; }
+
+    .s1-left {
+      flex: 0 0 52%; display: flex; flex-direction: column;
+      justify-content: center; padding: 84px 64px 84px 72px; position: relative; z-index: 2;
+    }
+    .s1-right { flex: 1; position: relative; overflow: hidden; }
+    .s1-right::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--bg-primary) 0%, transparent 28%),
+                  linear-gradient(150deg, #0d0e20 0%, #0a1830 40%, #062040 80%, #040408 100%);
+    }
+    .s1-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,171,64,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,171,64,.035) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+
+    .s1-eyebrow  { font-size: 10px; letter-spacing: 5px; color: var(--accent-amber); text-transform: uppercase; font-weight: 400; margin-bottom: 22px; }
+    .s1-title    { font-size: 72px; font-weight: 700; line-height: 1.0; color: #fff; letter-spacing: -2px; margin-bottom: 8px; font-family: var(--font-display); }
+    .s1-title em { color: var(--accent-amber); font-style: normal; display: block; }
+    .s1-subtitle { font-size: 22px; font-weight: 300; color: var(--text-secondary); letter-spacing: .5px; margin-bottom: 40px; }
+    .s1-rule     { width: 68px; height: 2px; background: var(--accent-amber); margin-bottom: 36px; }
+    .s1-tagline  { font-size: 18px; color: var(--text-secondary); font-weight: 300; line-height: 1.75; max-width: 440px; margin-bottom: 56px; }
+    .s1-footer   { display: flex; align-items: center; gap: 16px; }
+    .s1-logo     { font-size: 14px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
+    .s1-logo span{ color: var(--accent-amber); }
+    .s1-badge    { font-size: 9px; letter-spacing: 2px; color: var(--text-muted); text-transform: uppercase; padding: 5px 12px; border: 1px solid #252525; }
+    .s1-divider  { width: 1px; height: 28px; background: #252525; }
+
+    /* ============================================================
+       SLIDE 2 — CONTENTS
+    ============================================================ */
+    #slide-2 { flex-direction: row; padding-bottom: 52px; }
+
+    .s2-left {
+      flex: 0 0 38%; background: #050505; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 60px 52px; position: relative; overflow: hidden;
+    }
+    .s2-bg-char {
+      position: absolute; bottom: -80px; left: -20px;
+      font-size: 280px; font-weight: 700; color: rgba(255,171,64,.03); line-height: 1; user-select: none;
+    }
+    .s2-right { flex: 1; padding: 48px 56px; display: flex; flex-direction: column; justify-content: center; }
+
+    .s2-title    { font-size: 52px; font-weight: 600; line-height: 1.05; margin: 16px 0 12px; font-family: var(--font-display); }
+    .s2-desc     { font-size: 16px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; max-width: 290px; }
+
+    .toc-list { display: flex; flex-direction: column; }
+    .toc-row  { display: grid; grid-template-columns: 36px 1fr auto; align-items: center; gap: 16px; padding: 11px 0; border-bottom: 1px solid #1a1a1a; }
+    .toc-row:last-child { border-bottom: none; }
+    .toc-n    { font-size: 9px; letter-spacing: 2px; color: var(--accent-amber); font-weight: 600; }
+    .toc-name { font-size: 15px; font-weight: 400; color: var(--text-primary); }
+    .toc-pg   { font-size: 13px; color: var(--text-muted); letter-spacing: 1px; }
+
+    /* ============================================================
+       SLIDE 3 — ABOUT CSD
+    ============================================================ */
+    #slide-3 { flex-direction: row; padding-bottom: 52px; }
+
+    .s3-left  { flex: 0 0 55%; display: flex; flex-direction: column; padding: 48px 52px 40px; }
+    .s3-right { flex: 1; position: relative; overflow: hidden; }
+
+    .stat-row { display: flex; gap: 2px; margin-top: 28px; }
+    .stat-box { flex: 1; background: var(--bg-surface); padding: 20px 18px; display: flex; flex-direction: column; gap: 4px; }
+    .stat-num { font-size: 36px; font-weight: 700; color: var(--accent-amber); line-height: 1; font-family: var(--font-display); }
+    .stat-lbl { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-secondary); font-weight: 400; }
+
+    .partner-row { display: flex; gap: 2px; margin-top: 28px; flex-wrap: wrap; }
+    .partner-tag {
+      font-size: 12px; letter-spacing: 1.5px; color: var(--text-secondary);
+      padding: 8px 16px; border: 1px solid #1e1e1e; font-weight: 300;
+    }
+    .partner-tag.amber { border-color: rgba(255,171,64,.4); color: var(--accent-amber); }
+
+    /* ============================================================
+       SLIDE 4 — RIBA WHEEL INFOGRAPHIC
+    ============================================================ */
+    #slide-4 { flex-direction: row; padding-bottom: 52px; }
+
+    /* Left panel */
+    .riba-left {
+      flex: 0 0 40%; display: flex; flex-direction: column;
+      padding: 32px 36px 28px 52px; border-right: 1px solid #161616;
+    }
+    .riba-left-intro { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.7; margin: 14px 0 24px; }
+
+    /* CSD callout cards */
+    .riba-callout {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--bg-surface); padding: 14px 18px; margin-bottom: 8px;
+      border-left: 3px solid transparent; position: relative;
+    }
+    .riba-callout.c-amber { border-left-color: var(--accent-amber); }
+    .riba-callout.c-red   { border-left-color: #E57373; }
+    .riba-callout.c-green { border-left-color: #4CAF93; }
+
+    .rc-badge {
+      width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; line-height: 1;
+    }
+    .rc-badge.b-amber { background: rgba(255,171,64,.12); border: 2px solid var(--accent-amber); color: var(--accent-amber); }
+    .rc-badge.b-red   { background: rgba(229,115,115,.10); border: 2px solid rgba(229,115,115,.65); color: #E57373; }
+    .rc-badge.b-green { background: rgba(76,175,147,.10); border: 2px solid rgba(76,175,147,.65); color: #4CAF93; }
+
+    .rc-content { flex: 1; }
+    .rc-name { font-size: 15px; font-weight: 600; color: var(--text-primary); line-height: 1.3; margin-bottom: 4px; }
+    .rc-flag { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-left: 6px; text-transform: uppercase; }
+    .rc-flag.red   { color: #EF9A9A; }
+    .rc-flag.green { color: #5CD9A8; }
+    .rc-desc { font-size: 14px; color: var(--text-secondary); font-weight: 300; line-height: 1.6; }
+
+    /* Legend strip */
+    .riba-legend {
+      display: flex; gap: 20px; align-items: center; margin-top: auto; padding-top: 16px;
+      border-top: 1px solid #1a1a1a; flex-wrap: wrap;
+    }
+    .rl-item { display: flex; gap: 7px; align-items: center; }
+    .rl-dot  { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+
+    /* Right panel */
+    .riba-right {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 16px 24px; position: relative; overflow: hidden;
+    }
+    #riba-wheel { display: block; max-width: 100%; max-height: 100%; overflow: visible; }
+
+    /* ============================================================
+       SLIDE 5 — VALUE PROP
+    ============================================================ */
+    #slide-5 { flex-direction: column; padding-bottom: 52px; }
+
+    .vp-grid {
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      gap: 2px; flex: 1; margin-top: 12px;
+    }
+    .vp-cell { background: var(--bg-surface); padding: 32px 28px; display: flex; flex-direction: column; gap: 14px; }
+    .vp-cell:nth-child(even) { background: var(--bg-surface-b); }
+    .vp-tag   { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--accent-amber); font-weight: 600; }
+    .vp-title { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+    .vp-items { display: flex; flex-direction: column; gap: 10px; }
+    .vp-item  { display: flex; gap: 10px; align-items: flex-start; }
+    .vp-dot   { width: 5px; height: 5px; background: var(--accent-amber); flex-shrink: 0; margin-top: 10px; }
+    .vp-text  { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+
+    /* ============================================================
+       SLIDE 6 — SCREEN CONFIGS
+    ============================================================ */
+    #slide-6 { flex-direction: column; padding-bottom: 52px; }
+
+    .cfg-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; flex: 1; margin-top: 12px; }
+    .cfg-cell { background: var(--bg-surface); display: flex; flex-direction: column; overflow: hidden; }
+    .cfg-vis  { flex: 0 0 180px; background: #0a0a14; display: flex; align-items: center; justify-content: center; position: relative; }
+    .cfg-body { padding: 22px 22px 28px; display: flex; flex-direction: column; gap: 10px; }
+    .cfg-title{ font-size: 19px; font-weight: 600; color: var(--text-primary); }
+    .cfg-desc { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+    .cfg-pro  { font-size: 15px; color: #5CD9A8; font-weight: 300; line-height: 1.55; }
+    .cfg-con  { font-size: 15px; color: #EF9A9A; font-weight: 300; line-height: 1.55; }
+    .cfg-pro::before { content: '+ '; font-weight: 600; }
+    .cfg-con::before { content: '− '; font-weight: 600; }
+
+    /* ============================================================
+       SLIDE 7 — TECHNOLOGY GUIDE
+    ============================================================ */
+    #slide-7 { flex-direction: column; padding-bottom: 52px; }
+
+    .tech-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; flex: 1; margin-top: 12px; }
+    .tech-cell { background: var(--bg-surface); padding: 32px 28px; display: flex; flex-direction: column; }
+    .tech-cell:nth-child(2) { border-top: 3px solid var(--accent-amber); }
+    .tech-icon { font-size: 28px; margin-bottom: 16px; }
+    .tech-title{ font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px; }
+    .tech-desc { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.75; margin-bottom: 20px; }
+    .tech-pros, .tech-cons { margin-top: 12px; }
+    .tech-pc-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 7px; }
+    .pros-label { color: #4CAF93; }
+    .cons-label { color: #E57373; }
+    .tech-pc-text { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+
+    /* ============================================================
+       SLIDE 8 — CANVAS INTELLIGENCE
+    ============================================================ */
+    #slide-8 { flex-direction: row; padding-bottom: 52px; }
+
+    .s8-left  { flex: 0 0 40%; display: flex; flex-direction: column; padding: 48px 48px 40px; }
+    .s8-right { flex: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; }
+    .ci-cell { background: var(--bg-surface); padding: 28px 24px; display: flex; flex-direction: column; }
+    .ci-cell:nth-child(odd) { background: var(--bg-surface-b); }
+    .ci-num   { font-size: 40px; font-weight: 700; color: rgba(255,171,64,.12); line-height: 1; margin-bottom: 6px; }
+    .ci-title { font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 10px; }
+    .ci-body  { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.7; }
+
+    /* ============================================================
+       PRODUCT SLIDES (9–16) — shared template
+    ============================================================ */
+    .prod-slide { flex-direction: row; }
+
+    .prod-left {
+      flex: 0 0 40%; background: var(--bg-surface);
+      display: flex; flex-direction: column; padding: 44px 44px 80px; position: relative; overflow: hidden;
+    }
+    .prod-ghost {
+      position: absolute; bottom: -30px; right: -10px;
+      font-size: 160px; font-weight: 700; color: rgba(255,171,64,.05); line-height: 1; user-select: none;
+    }
+    .prod-right { flex: 1; display: flex; flex-direction: column; }
+    .prod-img { flex: 0 0 70%; position: relative; overflow: hidden; }
+    .prod-spec-bar {
+      flex: 1; background: var(--bg-surface-b);
+      display: grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+      border-top: 1px solid var(--border);
+    }
+    .spec-cell { padding: 14px 18px; border-right: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; }
+    .spec-cell:last-child { border-right: none; }
+    .sc-lbl    { font-size: 11px; letter-spacing: 1.5px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .sc-val    { font-size: 15px; color: var(--text-primary); font-weight: 400; }
+
+    .prod-opt  { font-size: 10px; letter-spacing: 3px; color: var(--accent-amber); text-transform: uppercase; font-weight: 600; margin-bottom: 4px; }
+    .prod-name { font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1.15; margin-bottom: 6px; font-family: var(--font-display); }
+    .prod-tech { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 24px; }
+    .prod-price{
+      display: inline-flex; flex-direction: column;
+      background: var(--accent-amber); padding: 10px 16px; margin-bottom: 24px; align-self: flex-start;
+    }
+    .pp-lbl { font-size: 8px; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,0,0,.55); }
+    .pp-val { font-size: 28px; font-weight: 700; color: #000; line-height: 1.1; }
+    .pp-note{ font-size: 9px; color: rgba(0,0,0,.45); }
+
+    .prod-sec { margin-bottom: 16px; }
+    .ps-lbl   { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-amber); font-weight: 700; margin-bottom: 7px; }
+    .ps-text  { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.7; }
+
+    /* ============================================================
+       SLIDE 17 — COMPARISON MATRIX
+    ============================================================ */
+    #slide-17 { flex-direction: column; padding-bottom: 52px; }
+
+    .matrix-wrap { flex: 1; overflow-x: auto; overflow-y: auto; padding: 4px 48px 0; }
+    table.cmp { width: 100%; border-collapse: collapse; font-size: 12px; }
+    table.cmp th {
+      background: var(--accent-amber); color: #000; font-weight: 700;
+      padding: 10px 14px; text-align: left; letter-spacing: .5px;
+      font-size: 11px; white-space: nowrap;
+    }
+    table.cmp th.row-lbl { background: #1a1a1a; color: var(--text-secondary); width: 160px; min-width: 160px; font-size: 10px; letter-spacing: 1px; }
+    table.cmp td { padding: 9px 14px; border-bottom: 1px solid #1a1a1a; color: var(--text-secondary); font-weight: 300; font-size: 12px; vertical-align: top; }
+    table.cmp tr:nth-child(even) td { background: rgba(255,255,255,.015); }
+    table.cmp td:first-child { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-secondary); font-weight: 400; border-right: 1px solid #1a1a1a; }
+
+    /* ============================================================
+       SLIDE 18 — SYSTEM CONTROL
+    ============================================================ */
+    #slide-18 { flex-direction: row; padding-bottom: 52px; }
+
+    .s18-left  { flex: 0 0 50%; display: flex; flex-direction: column; padding: 48px 52px 40px; }
+    .s18-right { flex: 1; position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 48px 44px 40px; }
+
+    .ux-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+    .ux-item { display: flex; gap: 16px; align-items: flex-start; }
+    .ux-icon { width: 40px; height: 40px; background: rgba(255,171,64,.08); border: 1px solid rgba(255,171,64,.25); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+    .ux-title{ font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 5px; }
+    .ux-body { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+
+    .workflow-steps { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+    .ws-item { background: var(--bg-surface); display: flex; align-items: center; gap: 20px; padding: 16px 20px; }
+    .ws-num  { font-size: 11px; font-weight: 700; color: var(--accent-amber); letter-spacing: 1px; flex-shrink: 0; width: 24px; }
+    .ws-text { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.5; }
+    .ws-arrow{ font-size: 14px; color: rgba(255,171,64,.3); margin: 0 auto; }
+
+    /* ============================================================
+       SLIDE 19 — SERVICE & SUPPORT
+    ============================================================ */
+    #slide-19 { flex-direction: column; padding-bottom: 52px; }
+
+    .svc-cols { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2px; flex: 1; margin-top: 12px; }
+    .svc-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 2px; }
+    .svc-cell { background: var(--bg-surface); padding: 20px 18px; display: flex; flex-direction: column; gap: 8px; }
+    .svc-icon { font-size: 18px; }
+    .svc-title{ font-size: 16px; font-weight: 600; color: var(--text-primary); }
+    .svc-body { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.6; }
+
+    .svc-right { background: #050505; padding: 32px 28px; display: flex; flex-direction: column; gap: 20px; }
+    .svc-cost-box {
+      background: var(--bg-surface); padding: 20px 24px;
+      border-top: 3px solid var(--accent-amber);
+    }
+    .svc-cost-lbl{ font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-amber); margin-bottom: 4px; }
+    .svc-cost-val{ font-size: 32px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+    .svc-cost-note{ font-size: 15px; color: var(--text-secondary); font-weight: 300; margin-top: 6px; }
+
+    .content-lc { display: flex; flex-direction: column; gap: 12px; }
+    .cl-item    { display: flex; gap: 14px; align-items: flex-start; }
+    .cl-dot     { width: 6px; height: 6px; background: var(--accent-amber); flex-shrink: 0; margin-top: 5px; }
+    .cl-title   { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+    .cl-body    { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.65; }
+
+    /* ============================================================
+       SLIDE 20 — CONTACT
+    ============================================================ */
+    #slide-20 { flex-direction: row; }
+
+    .s20-left  { flex: 0 0 42%; background: #040404; display: flex; flex-direction: column; justify-content: center; padding: 72px 56px; position: relative; overflow: hidden; }
+    .s20-right { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 72px 64px; }
+
+    .s20-bg-num {
+      position: absolute; bottom: -60px; left: -20px;
+      font-size: 300px; font-weight: 700; color: rgba(255,171,64,.03); line-height: 1; user-select: none;
+    }
+    .contact-block { display: flex; flex-direction: column; gap: 6px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid #1a1a1a; }
+    .cb-label { font-size: 9px; letter-spacing: 3px; color: var(--accent-amber); text-transform: uppercase; }
+    .cb-name  { font-size: 28px; font-weight: 600; color: var(--text-primary); font-family: var(--font-display); }
+    .cb-role  { font-size: 15px; color: var(--text-secondary); font-weight: 300; }
+    .contact-detail { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+    .cd-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); width: 48px; flex-shrink: 0; }
+    .cd-value { font-size: 17px; color: var(--text-primary); font-weight: 300; }
+    .cd-addr  { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.8; margin-top: 24px; }
+
+    .next-steps { display: flex; flex-direction: column; gap: 20px; }
+    .ns-item    { display: flex; gap: 20px; align-items: flex-start; }
+    .ns-num     { font-size: 9px; letter-spacing: 2px; color: var(--accent-amber); font-weight: 700; flex-shrink: 0; padding-top: 3px; width: 28px; }
+    .ns-title   { font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+    .ns-body    { font-size: 15px; color: var(--text-secondary); font-weight: 300; line-height: 1.6; }
+
+  </style>
+  <style id="print-overrides">
+    /* â”€â”€ PRINT / IMPORT OVERRIDES â€” all slides visible, stacked â”€â”€ */
+    html, body {
+      overflow: auto !important;
+      height: auto !important;
+      background: #040404 !important;
+    }
+    .slideshow {
+      position: relative !important;
+      width: 1920px !important;
+      height: auto !important;
+      display: block !important;
+    }
+    .slide {
+      position: relative !important;
+      display: flex !important;
+      opacity: 1 !important;
+      width: 1920px !important;
+      height: 1080px !important;
+      overflow: hidden !important;
+      margin-bottom: 4px !important;
+      flex-shrink: 0 !important;
+    }
+    .slide.active { display: flex !important; }
+    .nav-bar { display: none !important; }
+  </style>
+</head>
+<body>
+
+<div class="slideshow" id="slideshow">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 01 — COVER
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide active" id="slide-1">
+    <div class="s1-left">
+      <p class="s1-eyebrow">Cityscape Digital</p>
+      <h1 class="s1-title">Immersive<br><em>Marketing</em>Suite</h1>
+      <p class="s1-subtitle">Product Portfolio &amp; Solutions Guide</p>
+      <div class="s1-rule"></div>
+      <p class="s1-tagline">Helping capital project developers shape, communicate and realise the full potential of their real estate assets through cutting-edge immersive digital technology.</p>
+      <div class="s1-footer">
+        <img src="media/image1.png" alt="Cityscape Digital" class="logo-img-lg">
+        <span class="s1-divider"></span>
+        <span class="s1-badge">Since 2001</span>
+        <span class="s1-badge">Digital Real Estate</span>
+        <span class="s1-badge">Epic Games Gold Partner</span>
+      </div>
+    </div>
+    <div class="s1-right">
+      <!-- Aerial night cityscape hero image -->
+      <img class="real-img" src="media/image14.jpg" alt="Cityscape Digital immersive marketing suite development">
+      <!-- Left-to-right fade so text on left remains legible -->
+      <div class="img-overlay" style="background:linear-gradient(to right, var(--bg-primary) 0%, rgba(8,8,8,.55) 40%, rgba(8,8,8,.15) 100%);"></div>
+      <!-- Subtle amber vignette at top -->
+      <div class="img-overlay" style="background:linear-gradient(to bottom, rgba(8,8,8,.5) 0%, transparent 30%, transparent 70%, rgba(8,8,8,.6) 100%);"></div>
+      <div style="position:absolute;bottom:36px;right:44px;text-align:right;">
+        <p style="font-size:8px;letter-spacing:3px;color:rgba(255,255,255,.35);text-transform:uppercase;margin-bottom:3px;">Confidential</p>
+        <p style="font-size:8px;letter-spacing:2px;color:rgba(255,255,255,.20);font-weight:300;">www.cityscapedigital.co.uk</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 02 — CONTENTS
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="slide-top-rule"></div>
+    <div id="slide-2-inner" style="display:flex;flex:1;padding-bottom:52px;height:100%;">
+      <div class="s2-left">
+        <div class="s2-bg-char">C</div>
+        <div style="position:relative;z-index:2;">
+          <div class="amber-rule" style="margin-bottom:18px;"></div>
+          <p class="section-label" style="margin-bottom:10px;">Document Index</p>
+          <h2 class="s2-title">Contents</h2>
+          <p class="s2-desc">A complete guide to Cityscape Digital's immersive marketing suite product portfolio and capabilities.</p>
+        </div>
+      </div>
+      <div class="s2-right">
+        <div class="toc-list">
+          <div class="toc-row"><span class="toc-n">01</span><span class="toc-name">About Cityscape Digital</span><span class="toc-pg">P. 03</span></div>
+          <div class="toc-row"><span class="toc-n">02</span><span class="toc-name">The Development Lifecycle — Where We Add Value</span><span class="toc-pg">P. 04</span></div>
+          <div class="toc-row"><span class="toc-n">03</span><span class="toc-name">Why an Immersive Suite — Value Proposition</span><span class="toc-pg">P. 05</span></div>
+          <div class="toc-row"><span class="toc-n">04</span><span class="toc-name">Our Design Approach — Screen Configuration Types</span><span class="toc-pg">P. 06</span></div>
+          <div class="toc-row"><span class="toc-n">05</span><span class="toc-name">Technology Guide — LED vs Video Wall vs Projection</span><span class="toc-pg">P. 07</span></div>
+          <div class="toc-row"><span class="toc-n">06</span><span class="toc-name">Canvas Intelligence — Content Management System</span><span class="toc-pg">P. 08</span></div>
+          <div class="toc-row"><span class="toc-n">07</span><span class="toc-name">Product Portfolio — Solutions 00 through 07</span><span class="toc-pg">P. 09–16</span></div>
+          <div class="toc-row"><span class="toc-n">08</span><span class="toc-name">Feature Comparison Matrix — All Solutions</span><span class="toc-pg">P. 17</span></div>
+          <div class="toc-row"><span class="toc-n">09</span><span class="toc-name">System Control &amp; User Experience</span><span class="toc-pg">P. 18</span></div>
+          <div class="toc-row"><span class="toc-n">10</span><span class="toc-name">Service, Support &amp; Ongoing Content</span><span class="toc-pg">P. 19</span></div>
+          <div class="toc-row"><span class="toc-n">11</span><span class="toc-name">Contact &amp; Next Steps</span><span class="toc-pg">P. 20</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 03 — ABOUT CITYSCAPE DIGITAL
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex:1;padding-bottom:52px;height:100%;" id="s3-inner">
+      <div class="s3-left">
+        <div class="top-bar" style="padding:28px 0 0;">
+          <div><p class="section-label">01 — About Us</p></div>
+          <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">03 / 20</span></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding-top:24px;">
+          <div class="amber-rule" style="margin-bottom:20px;"></div>
+          <h2 class="slide-title" style="font-size:40px;margin-bottom:16px;">Cityscape<br>Digital</h2>
+          <p class="slide-subtitle" style="line-height:1.75;max-width:540px;">
+            Cityscape Digital is a specialist property consultancy that helps clients shape, communicate and realise the full potential of their real estate assets. We work at the intersection of property, technology and experience design — supporting developers, landlords and asset managers to engage audiences at every stage of the development lifecycle.
+          </p>
+          <p class="slide-subtitle" style="line-height:1.75;max-width:540px;margin-top:16px;">
+            Our expertise spans digital strategy, immersive marketing suites, interactive storytelling and live experiential events — enabling us to translate complex schemes into clear, compelling narratives that support leasing, strengthen tenant engagement and align with long-term asset strategies.
+          </p>
+          <div class="stat-row">
+            <div class="stat-box"><span class="stat-num">25+</span><span class="stat-lbl">Years in industry</span></div>
+            <div class="stat-box"><span class="stat-num">500+</span><span class="stat-lbl">Projects delivered</span></div>
+            <div class="stat-box"><span class="stat-num">Gold</span><span class="stat-lbl">Epic Games partner</span></div>
+            <div class="stat-box"><span class="stat-num">8</span><span class="stat-lbl">RIBA lifecycle stages</span></div>
+          </div>
+          <div class="partner-row" style="margin-top:20px;">
+            <span class="partner-tag amber">Epic Games Gold Partner</span>
+            <span class="partner-tag">HTC Vive</span>
+            <span class="partner-tag">MaxQ Innovation</span>
+            <span class="partner-tag">Unreal Engine</span>
+            <span class="partner-tag">Digital Twin Technology</span>
+          </div>
+        </div>
+      </div>
+      <div class="s3-right">
+        <!-- Marketing suite interior render — CSD Investor Suite -->
+        <img class="real-img" src="media/image36.png" alt="Cityscape Digital immersive marketing suite interior" style="object-position:center center;">
+        <!-- Subtle left-edge fade to blend with content panel -->
+        <div class="img-overlay" style="background:linear-gradient(to right, var(--bg-primary) 0%, transparent 18%);"></div>
+        <!-- Bottom fade into spec bar -->
+        <div class="img-overlay" style="background:linear-gradient(to bottom, transparent 60%, rgba(8,8,8,.6) 100%);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 04 — RIBA WHEEL INFOGRAPHIC
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="slide-top-rule"></div>
+
+    <!-- LEFT PANEL: context + callouts -->
+    <div class="riba-left">
+
+      <div class="top-bar" style="padding:28px 0 0;">
+        <div><p class="section-label">01 — About Us</p></div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">04 / 20</span></div>
+      </div>
+
+      <h2 class="slide-title" style="font-size:26px;margin-top:12px;line-height:1.2;">The Development<br>Lifecycle — <em style="color:var(--accent-amber);font-style:normal;">Where We Add Value</em></h2>
+      <p class="riba-left-intro">Hundreds of decisions happen across the full development lifecycle — most years before the building exists. CSD helps developers communicate clearly at every critical stage.</p>
+
+      <!-- Stage 0 -->
+      <div class="riba-callout c-amber">
+        <div class="rc-badge b-amber">0</div>
+        <div class="rc-content">
+          <p class="rc-name">Acquisition &amp; Funding</p>
+          <p class="rc-desc">Investor visualisation and digital twin feasibility to support the go / no-go decision</p>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="riba-callout c-red">
+        <div class="rc-badge b-red">2</div>
+        <div class="rc-content">
+          <p class="rc-name">Pre-Planning <span class="rc-flag red">⚠ Risk Zone</span></p>
+          <p class="rc-desc">Without clear communication, schemes can circle here for years — CSD provides planning narratives and community engagement tools</p>
+        </div>
+      </div>
+
+      <!-- Stage 4–5 -->
+      <div class="riba-callout c-amber">
+        <div class="rc-badge b-amber" style="font-size:10px;">4–5</div>
+        <div class="rc-content">
+          <p class="rc-name">Planning &amp; Consultation</p>
+          <p class="rc-desc">A single source of truth is critical when persuading diverse stakeholder groups with conflicting interests</p>
+        </div>
+      </div>
+
+      <!-- Stage 7 -->
+      <div class="riba-callout c-green">
+        <div class="rc-badge b-green">7</div>
+        <div class="rc-content">
+          <p class="rc-name">Marketing, Sales &amp; Leasing <span class="rc-flag green">★ Revenue</span></p>
+          <p class="rc-desc">Immersive suites are the key differentiator — driving pre-let decisions and investor confidence</p>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="riba-legend">
+        <div class="rl-item"><div class="rl-dot" style="background:rgba(255,171,64,.8);"></div><span style="font-size:11px;color:var(--text-secondary);">CSD adds value</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#E57373;opacity:.75;"></div><span style="font-size:11px;color:var(--text-secondary);">Risk / delay zone</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#4CAF93;opacity:.75;"></div><span style="font-size:11px;color:var(--text-secondary);">Revenue impact</span></div>
+        <div class="rl-item"><div class="rl-dot" style="background:#1e1e1e;border:1px solid #333;"></div><span style="font-size:11px;color:var(--text-muted);">Standard stage</span></div>
+      </div>
+    </div><!-- /riba-left -->
+
+    <!-- RIGHT PANEL: SVG wheel -->
+    <div class="riba-right">
+      <svg id="riba-wheel" viewBox="-60 -40 680 640" width="100%" height="100%"></svg>
+    </div>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 05 — VALUE PROPOSITION
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex-direction:column;height:100%;padding-bottom:52px;">
+      <div class="top-bar">
+        <div>
+          <p class="section-label">02 — Value Proposition</p>
+          <h2 class="slide-title" style="font-size:30px;margin-top:4px;">Why an Immersive Suite — <em style="color:var(--accent-amber);font-style:normal;">Four Core Use Cases</em></h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">05 / 20</span></div>
+      </div>
+      <div class="vp-grid" style="margin:8px 48px 0;">
+        <!-- Marketing & Brand -->
+        <div class="vp-cell">
+          <p class="vp-tag">Marketing &amp; Brand</p>
+          <p class="vp-title">Amplify Your Brand at Every Touchpoint</p>
+          <div class="vp-items">
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Create assets once (fly-throughs, renders) and deploy globally to support remote roadshows</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Ensure every agency and partner tells the same story, aligned with the latest project milestones</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Reduce production time by generating high-fidelity assets directly from the live digital twin</p></div>
+          </div>
+        </div>
+        <!-- Leasing & Occupier -->
+        <div class="vp-cell">
+          <p class="vp-tag">Leasing &amp; Occupier Engagement</p>
+          <p class="vp-title">Win Pre-Lets Before Construction Begins</p>
+          <div class="vp-items">
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Allow prospective anchor tenants to "stand" in their future HQ years before completion</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Customise the digital environment with a prospect's own branding and fit-out, increasing emotional buy-in</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Overlay real-time availability and technical specs onto the view, answering detailed occupier questions in the room</p></div>
+          </div>
+        </div>
+        <!-- Capital Raising -->
+        <div class="vp-cell">
+          <p class="vp-tag">Capital Raising &amp; Investor Relations</p>
+          <p class="vp-title">Unlock Funding with Undeniable Conviction</p>
+          <div class="vp-items">
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Demonstrate the scale, viability, and ambition of the masterplan to potential JV partners and institutional investors</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Use data-rich visualisations to prove planning viability and phasing strategies, removing decision ambiguity</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Create an immersive environment that signals momentum — crucial for unlocking early-stage funding</p></div>
+          </div>
+        </div>
+        <!-- Design & Development -->
+        <div class="vp-cell">
+          <p class="vp-tag">Design &amp; Development</p>
+          <p class="vp-title">Accelerate Design Decisions, Reduce Rework</p>
+          <div class="vp-items">
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Visualise projects pre-construction through immersive 3D environments, enabling faster consensus between architects and stakeholders</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Identify design challenges early by "walking" the site digitally before breaking ground</p></div>
+            <div class="vp-item"><div class="vp-dot"></div><p class="vp-text">Facilitate clear communication with local authorities using an undisputed single source of truth</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 06 — SCREEN CONFIGURATIONS
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-6">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex-direction:column;height:100%;padding-bottom:52px;">
+      <div class="top-bar">
+        <div>
+          <p class="section-label">03 — Design Approach</p>
+          <h2 class="slide-title" style="font-size:30px;margin-top:4px;">Screen Configuration Types — <em style="color:var(--accent-amber);font-style:normal;">Single, Corner &amp; Wrap</em></h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">06 / 20</span></div>
+      </div>
+      <div class="cfg-grid" style="margin:8px 48px 0;">
+        <!-- Single / Hero Wall -->
+        <div class="cfg-cell">
+          <div class="cfg-vis">
+            <svg width="200" height="130" viewBox="0 0 200 130" style="opacity:.5;">
+              <rect x="20" y="20" width="160" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="30" y="28" width="140" height="74" fill="rgba(255,171,64,0.06)"/>
+              <line x1="100" y1="110" x2="100" y2="130" stroke="#FFAB40" stroke-width="1"/>
+              <rect x="90" y="128" width="20" height="2" fill="#FFAB40"/>
+              <text x="100" y="75" text-anchor="middle" fill="rgba(255,171,64,0.4)" font-size="11" font-family="madefor-text, Helvetica Neue, sans-serif">HERO WALL</text>
+            </svg>
+          </div>
+          <div class="cfg-body">
+            <p class="cfg-title">The "Hero" Wall (Single Surface)</p>
+            <p class="cfg-desc">A single, flat screen surface — the most versatile configuration, maximising viewing angles for large groups while preserving a fully flexible floorplate.</p>
+            <p class="cfg-pro">Maximum viewing angles for large groups</p>
+            <p class="cfg-pro">Retains open floorplate for design workshops</p>
+            <p class="cfg-pro">Easiest upgrade path — add wings to expand</p>
+            <p class="cfg-con">Standard immersion level — no peripheral wrap</p>
+          </div>
+        </div>
+        <!-- Corner / L-Shape -->
+        <div class="cfg-cell">
+          <div class="cfg-vis">
+            <svg width="200" height="130" viewBox="0 0 200 130" style="opacity:.5;">
+              <rect x="20" y="20" width="90" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="110" y="20" width="70" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="30" y="28" width="72" height="74" fill="rgba(255,171,64,0.04)"/>
+              <rect x="118" y="28" width="54" height="74" fill="rgba(255,171,64,0.06)"/>
+              <line x1="110" y1="20" x2="110" y2="110" stroke="#FFAB40" stroke-width="2.5"/>
+              <text x="65" y="68" text-anchor="middle" fill="rgba(255,171,64,0.3)" font-size="9" font-family="madefor-text, Helvetica Neue, sans-serif">PRIMARY</text>
+              <text x="145" y="68" text-anchor="middle" fill="rgba(255,171,64,0.3)" font-size="9" font-family="madefor-text, Helvetica Neue, sans-serif">WING</text>
+            </svg>
+          </div>
+          <div class="cfg-body">
+            <p class="cfg-title">The L-Shape Corner</p>
+            <p class="cfg-desc">Two screens meeting at a 90° corner — creates volumetric depth and utilises the parallax effect to make buildings appear genuinely three-dimensional.</p>
+            <p class="cfg-pro">Creates volumetric depth — "step into the masterplan"</p>
+            <p class="cfg-pro">Activates dead corner space productively</p>
+            <p class="cfg-pro">Dual-zone logic: data on one wing, visuals on the other</p>
+            <p class="cfg-con">Reduced screen area vs. same-budget flat configuration</p>
+          </div>
+        </div>
+        <!-- Panoramic Wrap -->
+        <div class="cfg-cell">
+          <div class="cfg-vis">
+            <svg width="200" height="130" viewBox="0 0 200 130" style="opacity:.5;">
+              <rect x="10" y="20" width="60" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="70" y="20" width="60" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="130" y="20" width="60" height="90" fill="none" stroke="#FFAB40" stroke-width="2"/>
+              <rect x="18" y="28" width="44" height="74" fill="rgba(255,171,64,0.04)"/>
+              <rect x="78" y="28" width="44" height="74" fill="rgba(255,171,64,0.07)"/>
+              <rect x="138" y="28" width="44" height="74" fill="rgba(255,171,64,0.04)"/>
+              <ellipse cx="100" cy="130" rx="60" ry="12" fill="none" stroke="rgba(255,171,64,0.3)" stroke-width="1" stroke-dasharray="4,3"/>
+            </svg>
+          </div>
+          <div class="cfg-body">
+            <p class="cfg-title">Panoramic Wrap / U-Shape</p>
+            <p class="cfg-desc">Three screens enclosing the viewer — true peripheral immersion. The horizon line wraps continuously around the viewer, placing them inside the masterplan.</p>
+            <p class="cfg-pro">Maximum immersion — the "Show Suite" effect</p>
+            <p class="cfg-pro">Engages peripheral vision for total brand presence</p>
+            <p class="cfg-pro">Central screen for focused 2D content; side screens for atmosphere</p>
+            <p class="cfg-con">Reduces floor flexibility — dedicated presentation space</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 07 — TECHNOLOGY GUIDE
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-7">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex-direction:column;height:100%;padding-bottom:52px;">
+      <div class="top-bar">
+        <div>
+          <p class="section-label">03 — Design Approach</p>
+          <h2 class="slide-title" style="font-size:30px;margin-top:4px;">Technology Guide — <em style="color:var(--accent-amber);font-style:normal;">Choosing the Right Display Medium</em></h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">07 / 20</span></div>
+      </div>
+      <p style="padding:6px 52px 0;font-size:15px;color:var(--text-secondary);font-weight:300;">Selection of the right technology is a trade-off between ambient light performance, resolution, and budget. We assess the entire market to design a bespoke ecosystem for your space.</p>
+      <div class="tech-grid" style="flex:1;margin:10px 48px 0;">
+        <!-- Projectors -->
+        <div class="tech-cell">
+          <div class="tech-icon">🔦</div>
+          <p class="tech-title">Projection</p>
+          <p class="tech-desc">High-power projectors (up to 20,000 lumens) cast ultra-wide images at a fraction of the cost of LED per square metre — ideal for creating dramatic, large-format experiences on a defined budget.</p>
+          <div class="tech-pros">
+            <p class="tech-pc-label pros-label">Advantages</p>
+            <p class="tech-pc-text">Massive scale at the most competitive budget. Best cost-per-square-metre across all solutions. Ultra-wide wrap and CAVE configurations achievable.</p>
+          </div>
+          <div class="tech-cons">
+            <p class="tech-pc-label cons-label">Considerations</p>
+            <p class="tech-pc-text">Requires ambient light control (blinds/blackout) for full impact. Changes room dynamics from open office to dedicated theatre mode.</p>
+          </div>
+        </div>
+        <!-- LED — highlighted as recommended -->
+        <div class="tech-cell" style="background:#0e0e0e;">
+          <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent-amber);"></div>
+          <div style="position:absolute;top:8px;right:16px;font-size:8px;letter-spacing:2px;color:var(--accent-amber);text-transform:uppercase;">Recommended</div>
+          <div class="tech-icon">💡</div>
+          <p class="tech-title">LED Panels</p>
+          <p class="tech-desc">Direct-view LED panels deliver unparalleled brightness — visible and impactful even in fully lit office environments. The seamless, bezel-free surface creates a premium, gallery-quality aesthetic.</p>
+          <div class="tech-pros">
+            <p class="tech-pc-label pros-label">Advantages</p>
+            <p class="tech-pc-text">Unparalleled brightness — fully usable in lit-office conditions. Seamless surface with no visible bezels. Premium aesthetic matching the quality of the development.</p>
+          </div>
+          <div class="tech-cons">
+            <p class="tech-pc-label cons-label">Considerations</p>
+            <p class="tech-pc-text">Higher cost per square metre. Best value when the surface is used daily and ambient-light-control is not practical.</p>
+          </div>
+        </div>
+        <!-- Video Walls -->
+        <div class="tech-cell">
+          <div class="tech-icon">🖥️</div>
+          <p class="tech-title">LCD Video Wall</p>
+          <p class="tech-desc">Tiled LCD panels provide the highest pixel density of any display medium — ideal for rendering detailed architectural drawings, fine-grain technical content, and floor plans with precision.</p>
+          <div class="tech-pros">
+            <p class="tech-pc-label pros-label">Advantages</p>
+            <p class="tech-pc-text">Highest resolution for technical drawings. Excellent for detailed floor plan presentation. Competitive cost relative to LED for equivalent area.</p>
+          </div>
+          <div class="tech-cons">
+            <p class="tech-pc-label cons-label">Considerations</p>
+            <p class="tech-pc-text">Visible bezels (grid lines) between screens break the immersive illusion for video content. Acceptable for data-heavy, technical presentations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 08 — CANVAS INTELLIGENCE
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-8">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;height:100%;padding-bottom:52px;" id="s8-inner">
+      <div class="s8-left">
+        <div class="top-bar" style="padding:28px 0 0;">
+          <div><p class="section-label">04 — Canvas Intelligence</p></div>
+          <div style="display:flex;gap:12px;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">08 / 20</span></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding-top:20px;">
+          <div class="amber-rule" style="margin-bottom:18px;"></div>
+          <h2 class="slide-title" style="font-size:34px;margin-bottom:16px;">Intelligent<br>Content<br>Management</h2>
+          <p class="slide-subtitle" style="line-height:1.75;">
+            The software layer automatically adapts to your screen configuration — whether single wall, corner, or full wrap. Content is routed intelligently so 3D models, presentations, and branded collateral are always displayed in the optimal zone without manual intervention.
+          </p>
+          <div class="callout" style="margin-top:24px;">
+            <p class="callout-title">Zero-configuration principle</p>
+            <p class="callout-body">No technician required on-site. The system treats any combination of screens as a single unified canvas, making context-appropriate decisions automatically.</p>
+          </div>
+        </div>
+      </div>
+      <div class="s8-right">
+        <div class="ci-cell">
+          <span class="ci-num">01</span>
+          <p class="ci-title">3D Immersive Mode</p>
+          <p class="ci-body">Your masterplan fills the entire physical view — offering a "cinematic window" into the future development. On corner and wrap configurations, the system utilises the geometry to create a genuine parallax 3D depth effect.</p>
+        </div>
+        <div class="ci-cell">
+          <span class="ci-num">02</span>
+          <p class="ci-title">Multiple Presentations (Picture-in-Picture)</p>
+          <p class="ci-body">One screen becomes the working surface for floor plans and specifications, while the remaining screens maintain the emotional connection with atmospheric CGI or live 3D views. Dual-presenter mode allows simultaneous cross-referencing.</p>
+        </div>
+        <div class="ci-cell">
+          <span class="ci-num">03</span>
+          <p class="ci-title">2D Content Management</p>
+          <p class="ci-body">Standard PDFs, presentations, and videos snap to fit the screen height automatically. On multi-screen setups, documents are intelligently constrained to a single wing — text never stretches across a corner fold, ensuring perfect legibility.</p>
+        </div>
+        <div class="ci-cell">
+          <span class="ci-num">04</span>
+          <p class="ci-title">Branded Collateral &amp; Idle States</p>
+          <p class="ci-body">Idle states display full-screen, high-resolution brand loops or static holding slides — setting the tone before the meeting begins. Across multi-screen configurations, brand wallpaper wraps the viewer in your identity from the moment they enter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDES 09–16 — PRODUCT PAGES
+  ═══════════════════════════════════════════════════════════ -->
+
+  <!-- PRODUCT 00: Dual Presenter -->
+  <div class="slide prod-slide" id="slide-9">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 00</p>
+        <h2 class="prod-name">Dual Presenter</h2>
+        <p class="prod-tech">Dual LCD / LED Displays · Entry Level</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£54,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">The most cost-effective way of presenting digital content and 3D interactive models across a sales office, investor meeting room, or boardroom environment. Two high-brightness displays driven by the Canvas Intelligence system provide full presentation capability without requiring dedicated AV infrastructure or room modifications.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Organisations seeking to establish a digital-first sales process at the entry level. Ideal for secondary offices, regional roadshows, and smaller investor suite environments.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Upgrade Path</p>
+          <p class="ps-text">Add a third display to transition into the 3-Screen Corner Wrap configuration, or upsize both screens to move to the Hero LED Wall.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">00</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- Dual Presenter: open marketing suite with display panels -->
+        <img class="real-img" src="media/image4.png" alt="Dual presenter marketing suite">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.35) 0%,transparent 30%,transparent 70%,rgba(8,8,8,.55) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">Dual LCD/LED</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">2× 4K UHD</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Lit Office Use</span><span class="sc-val"><span class="ck">✓</span> Yes</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Immersion Level</span><span class="sc-val">Entry</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">09 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 01: Hero LED Wall -->
+  <div class="slide prod-slide" id="slide-10">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 01</p>
+        <h2 class="prod-name">Hero LED Wall</h2>
+        <p class="prod-tech">Direct-View LED Panels · Single Flat Surface</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£131,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">The most robust Phase 1 investment for any premium marketing suite. A single, seamless LED surface delivers unparalleled brightness — ensuring the room remains fully operational with lights on. The flat configuration maximises flexibility within the space; there are no sight-line compromises for any seating position.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Upgrade Path</p>
+          <p class="ps-text">This wall can be expanded later with LED "wings" — one or two additional panels meeting at 90° — to create a corner or wrap experience. Your investment is protected as the scheme evolves.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Daily-use investor environments, leasing suites, and design collaboration rooms requiring a lights-on, always-on premium presentation surface.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">01</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- Hero LED Wall: single seamless LED panel in lit office atrium -->
+        <img class="real-img" src="media/image7.png" alt="Hero LED wall in lit office environment">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 25%,transparent 75%,rgba(8,8,8,.5) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">LED Panels</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">4000 × 2233</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Size</span><span class="sc-val">4.8 × 2.68m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Lit Office Use</span><span class="sc-val"><span class="ck">✓</span> Yes</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">10 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 02: Video Wall -->
+  <div class="slide prod-slide" id="slide-11">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 02</p>
+        <h2 class="prod-name">Video Wall<br>4×4 Grid</h2>
+        <p class="prod-tech">LCD Video Wall · 16-Panel Grid</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£102,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">Provides higher pixel density than equivalent LED installations — delivering the finest resolution for detailed architectural drawings, technical specification sheets, and dense floor plan content. The 4×4 grid format creates a substantial, statement wall presence at a lower cost than LED.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Trade-off</p>
+          <p class="ps-text">Unlike LED, this solution has visible bezels (thin grid lines) between individual panels. These are acceptable and often imperceptible for technical drawings and presentations, but break the seamless illusion for purely immersive video content.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Technical sales environments, architect and planning presentations, and investors who require the highest precision for detailed masterplan documentation.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">02</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- Video Wall: large-format tiled display in premium retail environment -->
+        <img class="real-img" src="media/image8.png" alt="Video wall tiled display in retail environment">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 25%,transparent 75%,rgba(8,8,8,.5) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">LCD Video Wall</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">7680 × 4320</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Size</span><span class="sc-val">4.86 × 2.74m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Detail Level</span><span class="sc-val">Highest</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">11 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 03: 2-Screen Tall Corner (Projection) -->
+  <div class="slide prod-slide" id="slide-12">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 03</p>
+        <h2 class="prod-name">2-Screen Tall<br>Corner</h2>
+        <p class="prod-tech">Projection · 2-Screen L-Shape · Tall Format</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£147,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">Uses high-power projectors (15,000 lumens) to combat ambient light without requiring total blackout. The tall format (up to 2.7m high) is dramatic and particularly well-suited to vertical masterplan content, phasing diagrams, and tall building elevations.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Trade-off</p>
+          <p class="ps-text">As a projection-based system, the luminance of the image is somewhat dependent on ambient light conditions. Where full ambient control (blinds) is impractical, this option may be slightly compromised compared to LED alternatives.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Spaces with high ceilings seeking maximum visual drama. Optimal for tall masterplan content and vertical development visualisations.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">03</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- 2-Screen Corner Projection: three presenters inside panoramic projection environment -->
+        <img class="real-img" src="media/image3.png" alt="Three people inside panoramic projection suite" style="object-position:center 30%;">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.4) 0%,transparent 20%,transparent 75%,rgba(8,8,8,.55) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">Projection</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">7680 × 3840</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Area</span><span class="sc-val">8.4 × 2.7m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Immersion</span><span class="sc-val">High</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">12 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 04: 2-Screen LED Corner -->
+  <div class="slide prod-slide" id="slide-13">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 04</p>
+        <h2 class="prod-name">2-Screen LED<br>Corner</h2>
+        <p class="prod-tech">Direct-View LED Panels · L-Shape Corner</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£154,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">Combines the premium quality of LED panels (unmatched brightness and contrast) with the structural depth of a corner configuration. The L-shaped geometry places the viewer at the focal point, creating a genuine sense of entering the development rather than simply observing it.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Decision</p>
+          <p class="ps-text">Whilst the total physical screen area is smaller than the Hero LED Wall at a comparable budget, the corner configuration offers a qualitatively different experience — a choice between raw scale and structural immersion. The LED quality ensures full lights-on usability.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Premium investor suites where both daily utility and exceptional first impressions are non-negotiable. The flagship lit-office immersive solution.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">04</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- 2-Screen LED Corner: dark-wall marketing suite with feature LED panel -->
+        <img class="real-img" src="media/image15.png" alt="Marketing suite interior with feature LED corner panel">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 25%,transparent 75%,rgba(8,8,8,.5) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">LED Panels</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">3500 × 1667</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Area</span><span class="sc-val">8.4 × 2.0m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Lit Office Use</span><span class="sc-val"><span class="ck">✓</span> Yes</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">13 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 05: 3-Screen Corner Wrap (Projection) -->
+  <div class="slide prod-slide" id="slide-14">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 05</p>
+        <h2 class="prod-name">3-Screen<br>Corner Wrap</h2>
+        <p class="prod-tech">Projection · 3-Screen Wrap · Corner Configuration</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£121,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">Delivers a compelling 3-screen wrap-around immersive experience — placing the viewer inside the masterplan horizon — at the most competitive price point in the immersive product range. Three projectors seamlessly blend to fill a 270° visual field.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Trade-off</p>
+          <p class="ps-text">As a projection system, it requires ambient light control (curtains or motorised blinds) to achieve full visual impact. This changes the room dynamics from a flexible open office to a dedicated "theatre" presentation environment during pitches.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Best For</p>
+          <p class="ps-text">Maximising immersion within a defined budget. Ideal for dedicated presentation suites where ambient light control is already in place or easily achievable.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">05</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- 3-Screen Corner Wrap: marketing suite interior render with LED panel -->
+        <img class="real-img" src="media/image42.png" alt="3-screen corner wrap marketing suite render">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 25%,transparent 75%,rgba(8,8,8,.5) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">Projection</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">11520 × 3840</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Area</span><span class="sc-val">8.0 × 1.5m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Immersion</span><span class="sc-val">High</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">14 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 06: 3-Screen Tall CAVE (Projection) -->
+  <div class="slide prod-slide" id="slide-15">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 06</p>
+        <h2 class="prod-name">3-Screen Tall<br>CAVE</h2>
+        <p class="prod-tech">Projection · 3-Wall U-Shape · Full Height</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£185,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Context</p>
+          <p class="ps-text">A three-wall enclosure using the full height of a standard floor-to-ceiling space — up to 4.2m × 2.8m per screen — creating a dedicated "room within a room." The viewer is physically enclosed on three sides, removing the office context entirely and placing them inside the development at near-1:1 scale.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Logic</p>
+          <p class="ps-text">This creates the maximum achievable immersion for this price bracket. The full-height format makes scale tangible — investors can perceive the true height and mass of planned buildings. No other configuration at this price level delivers equivalent impact.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Trade-off</p>
+          <p class="ps-text">This "exclusively uses the space" — the CAVE enclosure means the room serves as a dedicated presentation suite rather than a flexible meeting room.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">06</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- 3-Screen Tall CAVE: marketing suite render with wide immersive LED wrap -->
+        <img class="real-img" src="media/image35.png" alt="3-screen tall CAVE marketing suite render">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 25%,transparent 75%,rgba(8,8,8,.5) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">Projection</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">11520 × 3840</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Area</span><span class="sc-val">12.6 × 2.7m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Immersion</span><span class="sc-val">Maximum</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">15 / 20</span></div>
+  </div>
+
+  <!-- PRODUCT 07: 3-Screen CAVE Premium -->
+  <div class="slide prod-slide" id="slide-16">
+    <div class="slide-top-rule"></div>
+    <div class="prod-left">
+      <div style="padding-top:28px;">
+        <p class="section-label" style="margin-bottom:12px;">05 — Product Portfolio</p>
+        <p class="prod-opt">Option 07</p>
+        <h2 class="prod-name">3-Screen CAVE<br>Premium</h2>
+        <p class="prod-tech">Projection · 3-Wall CAVE · Future-State</p>
+        <div class="prod-price">
+          <span class="pp-lbl">Investment from</span>
+          <span class="pp-val">£187,000</span>
+          <span class="pp-note">ex VAT</span>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Context</p>
+          <p class="ps-text">The most immersive option available — a CAVE (Computer Augmented Virtual Environment) that effectively transforms the presentation suite into a full virtual reality space without requiring headsets. Three floor-to-ceiling walls enclose the viewer in a seamless, continuous environment.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">The Decision</p>
+          <p class="ps-text">This creates a dedicated presentation suite rather than a flexible meeting room — and represents the pinnacle of what is achievable with projection technology in a standard architectural space. It is the reference configuration that demonstrates the full potential of the technology platform.</p>
+        </div>
+        <div class="prod-sec">
+          <p class="ps-lbl">Upgrade Path</p>
+          <p class="ps-text">Can be expanded to a 4-wall configuration with partial floor projection, or integrated with VR/XR hardware to extend the experience beyond the physical suite.</p>
+        </div>
+      </div>
+      <div class="prod-ghost">07</div>
+    </div>
+    <div class="prod-right">
+      <div class="prod-img">
+        <!-- 3-Screen CAVE Premium: full 270° immersive Unreal Engine render — corner suite -->
+        <img class="real-img" src="media/image20.png" alt="3-screen CAVE premium Unreal Engine immersive suite">
+        <div class="img-overlay" style="background:linear-gradient(to bottom,rgba(8,8,8,.3) 0%,transparent 20%,transparent 75%,rgba(8,8,8,.55) 100%);"></div>
+      </div>
+      <div class="prod-spec-bar">
+        <div class="spec-cell"><span class="sc-lbl">Technology</span><span class="sc-val">Projection</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Resolution</span><span class="sc-val">5760 × 1200</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Screen Area</span><span class="sc-val">12.6 × 2.6m</span></div>
+        <div class="spec-cell"><span class="sc-lbl">Immersion</span><span class="sc-val"><span style="color:var(--accent-amber);">★</span> Maximum</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:52px;right:44px;"><span class="page-num">16 / 20</span></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 17 — FEATURE COMPARISON MATRIX
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-17">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex-direction:column;height:100%;padding-bottom:52px;">
+      <div class="top-bar" style="padding-bottom:16px;">
+        <div>
+          <p class="section-label">05 — Product Portfolio</p>
+          <h2 class="slide-title" style="font-size:28px;margin-top:4px;">Feature Comparison — <em style="color:var(--accent-amber);font-style:normal;">All Solutions at a Glance</em></h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">17 / 20</span></div>
+      </div>
+      <div class="matrix-wrap" style="flex:1;overflow:auto;padding:0 48px;">
+        <table class="cmp">
+          <thead>
+            <tr>
+              <th class="row-lbl">Feature</th>
+              <th>00 — Dual<br>Presenter</th>
+              <th>01 — Hero<br>LED Wall</th>
+              <th>02 — Video<br>Wall 4×4</th>
+              <th>03 — 2-Screen<br>Tall Corner</th>
+              <th>04 — 2-Screen<br>LED Corner</th>
+              <th>05 — 3-Screen<br>Corner Wrap</th>
+              <th>06 — 3-Screen<br>Tall CAVE</th>
+              <th>07 — 3-Screen<br>CAVE Premium</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Indicative Cost (ex VAT)</td>
+              <td class="hi">£54k</td>
+              <td class="hi">£131k</td>
+              <td class="hi">£102k</td>
+              <td class="hi">£147k</td>
+              <td class="hi">£154k</td>
+              <td class="hi">£121k</td>
+              <td class="hi">£185k</td>
+              <td class="hi">£187k</td>
+            </tr>
+            <tr>
+              <td>Technology</td>
+              <td>LCD/LED</td>
+              <td>LED Panels</td>
+              <td>LCD Video Wall</td>
+              <td>Projection</td>
+              <td>LED Panels</td>
+              <td>Projection</td>
+              <td>Projection</td>
+              <td>Projection</td>
+            </tr>
+            <tr>
+              <td>Screen Shape</td>
+              <td>Dual flat</td>
+              <td>Single flat wall</td>
+              <td>Single (grid)</td>
+              <td>2-screen tall corner</td>
+              <td>2-screen L-corner</td>
+              <td>3-screen corner wrap</td>
+              <td>3-wall U-shape</td>
+              <td>3-wall CAVE</td>
+            </tr>
+            <tr>
+              <td>Resolution</td>
+              <td>2× 4K UHD</td>
+              <td>4000×2233</td>
+              <td class="hi">7680×4320</td>
+              <td>7680×3840</td>
+              <td>3500×1667</td>
+              <td class="hi">11520×3840</td>
+              <td class="hi">11520×3840</td>
+              <td>5760×1200</td>
+            </tr>
+            <tr>
+              <td>Physical Screen Area</td>
+              <td>2× 65–86"</td>
+              <td>4.8×2.68m</td>
+              <td>4.86×2.74m</td>
+              <td>8.4×2.7m</td>
+              <td>8.4×2.0m</td>
+              <td>8.0×1.5m</td>
+              <td>12.6×2.7m</td>
+              <td>12.6×2.6m</td>
+            </tr>
+            <tr>
+              <td>Works in Lit Office</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="na">* Partial</span></td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="na">* Partial</span></td>
+              <td><span class="na">* Partial</span></td>
+              <td><span class="na">* Partial</span></td>
+            </tr>
+            <tr>
+              <td>Seamless Surface</td>
+              <td class="na">N/A</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="cx">✗</span> Bezels</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+              <td><span class="ck">✓</span> Yes</td>
+            </tr>
+            <tr>
+              <td>Resolution / Detail</td>
+              <td>Good</td>
+              <td>High</td>
+              <td class="hi">Highest</td>
+              <td>Good</td>
+              <td>High</td>
+              <td>Good</td>
+              <td>Good</td>
+              <td>Good</td>
+            </tr>
+            <tr>
+              <td>Immersive Effect</td>
+              <td>Entry</td>
+              <td>Standard</td>
+              <td>Standard</td>
+              <td>High</td>
+              <td>High</td>
+              <td>High</td>
+              <td class="hi">Maximum</td>
+              <td class="hi">Maximum ★</td>
+            </tr>
+            <tr>
+              <td>Room Flexibility</td>
+              <td class="hi">Maximum</td>
+              <td class="hi">Maximum</td>
+              <td class="hi">Maximum</td>
+              <td>Medium</td>
+              <td>Medium</td>
+              <td>Medium</td>
+              <td>Minimum</td>
+              <td>Minimum</td>
+            </tr>
+            <tr>
+              <td>Upgrade Path</td>
+              <td>Add screens</td>
+              <td>Add LED wings</td>
+              <td>Extend canvas</td>
+              <td>Expand to 3-wall</td>
+              <td>Expand to 3-wall</td>
+              <td>Expand to 4-wall</td>
+              <td>Add floor projection</td>
+              <td>4-wall or floor</td>
+            </tr>
+            <tr>
+              <td>Best For</td>
+              <td>Budget entry / boardrooms</td>
+              <td>Daily use, lit office</td>
+              <td>Technical drawings</td>
+              <td>Tall / vertical content</td>
+              <td>Premium LED immersion</td>
+              <td>Immersion within budget</td>
+              <td>Maximum immersion</td>
+              <td>Future-proofed premium</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:13px;color:var(--text-muted);font-weight:300;margin-top:10px;padding-bottom:8px;">* Projection solutions require ambient light control for maximum visual impact. All prices exclude VAT and optional civil works. See Caveats &amp; Assumptions for full details.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 18 — SYSTEM CONTROL & UX
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-18">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;height:100%;padding-bottom:52px;">
+      <div class="s18-left">
+        <div class="top-bar" style="padding:28px 0 0;">
+          <div><p class="section-label">06 — System Control</p></div>
+          <div style="display:flex;gap:12px;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">18 / 20</span></div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;padding-top:20px;">
+          <div class="amber-rule" style="margin-bottom:18px;"></div>
+          <h2 class="slide-title" style="font-size:34px;margin-bottom:12px;">Frictionless<br>Operation</h2>
+          <p class="slide-subtitle" style="font-size:12.5px;line-height:1.7;margin-bottom:24px;">
+            Complexity should be invisible. The system is designed to minimise interaction points — the agent running the pitch should never have to act as a technician. A single, branded interface puts them in complete control.
+          </p>
+          <div class="ux-grid">
+            <div class="ux-item">
+              <div class="ux-icon">⚡</div>
+              <div><p class="ux-title">One-Touch Switching</p><p class="ux-body">Instant transition between 3D immersive mode and 2D presentation content. No menus, no configuration — one tap.</p></div>
+            </div>
+            <div class="ux-item">
+              <div class="ux-icon">⊞</div>
+              <div><p class="ux-title">Picture-in-Picture</p><p class="ux-body">Layer technical data, floor plans, or leasing schedules over the live 3D model without interrupting the immersive experience.</p></div>
+            </div>
+            <div class="ux-item">
+              <div class="ux-icon">✓</div>
+              <div><p class="ux-title">Zero Setup</p><p class="ux-body">No technician required on-site. The system boots to a ready state and the agent can begin presenting immediately.</p></div>
+            </div>
+            <div class="ux-item">
+              <div class="ux-icon">📱</div>
+              <div><p class="ux-title">Presenter App</p><p class="ux-body">Agent-held tablet or phone acts as the remote control, allowing natural movement around the room while maintaining full control of the presentation narrative.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="s18-right" style="background:var(--bg-surface-b);border-left:1px solid var(--border);">
+        <p class="section-label" style="margin-bottom:20px;">Typical Pitch Workflow</p>
+        <div class="workflow-steps">
+          <div class="ws-item"><span class="ws-num">01</span><span class="ws-text">Visitor enters — suite displays branded holding loop automatically</span></div>
+          <div style="text-align:center;padding:4px 0;"><span style="color:rgba(255,171,64,.2);font-size:18px;">↓</span></div>
+          <div class="ws-item"><span class="ws-num">02</span><span class="ws-text">Agent opens masterplan in 3D — single tap from presenter app</span></div>
+          <div style="text-align:center;padding:4px 0;"><span style="color:rgba(255,171,64,.2);font-size:18px;">↓</span></div>
+          <div class="ws-item"><span class="ws-num">03</span><span class="ws-text">Navigator flies through the development live to resolve queries</span></div>
+          <div style="text-align:center;padding:4px 0;"><span style="color:rgba(255,171,64,.2);font-size:18px;">↓</span></div>
+          <div class="ws-item"><span class="ws-num">04</span><span class="ws-text">Tenant selects floors — data overlay snaps to adjacent screen</span></div>
+          <div style="text-align:center;padding:4px 0;"><span style="color:rgba(255,171,64,.2);font-size:18px;">↓</span></div>
+          <div class="ws-item"><span class="ws-num">05</span><span class="ws-text">As visitor leaves, bespoke PDF with snapshots arrives in their inbox automatically</span></div>
+          <div style="margin-top:16px;padding:16px 20px;background:rgba(255,171,64,.07);border-left:2px solid var(--accent-amber);">
+            <p style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-amber);margin-bottom:6px;">Result</p>
+            <p style="font-size:15px;color:var(--text-secondary);font-weight:300;line-height:1.65;">The human performance — not the interior design — is the key differentiator. The technology enables the agent to focus on the pitch, not the system.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 19 — SERVICE & SUPPORT
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-19">
+    <div class="slide-top-rule"></div>
+    <div style="display:flex;flex-direction:column;height:100%;padding-bottom:52px;">
+      <div class="top-bar" style="padding-bottom:8px;">
+        <div>
+          <p class="section-label">07 — Service &amp; Support</p>
+          <h2 class="slide-title" style="font-size:28px;margin-top:4px;">Service, Support &amp; <em style="color:var(--accent-amber);font-style:normal;">Ongoing Content Lifecycle</em></h2>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;"><img src="media/image1.png" alt="Cityscape Digital" class="logo-img-sm"><span class="page-num">19 / 20</span></div>
+      </div>
+      <div class="svc-cols" style="flex:1;margin:8px 48px 0;gap:2px;">
+        <!-- Left: SLA grid -->
+        <div>
+          <p style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--accent-amber);margin-bottom:8px;font-weight:600;">Gold SLA Package — Included</p>
+          <div class="svc-grid" style="gap:2px;">
+            <div class="svc-cell">
+              <span class="svc-icon">⏱</span>
+              <p class="svc-title">1-Day Response Time</p>
+              <p class="svc-body">8-hour response to all call-outs and fault reports on business days.</p>
+            </div>
+            <div class="svc-cell">
+              <span class="svc-icon">🔧</span>
+              <p class="svc-title">Preventative Maintenance</p>
+              <p class="svc-body">One proactive site visit per year to inspect and service all system components.</p>
+            </div>
+            <div class="svc-cell">
+              <span class="svc-icon">📦</span>
+              <p class="svc-title">Loan Equipment</p>
+              <p class="svc-body">Replacement loan equipment provided if an immediate on-site repair is not possible.</p>
+            </div>
+            <div class="svc-cell">
+              <span class="svc-icon">📞</span>
+              <p class="svc-title">Helpdesk &amp; Remote Support</p>
+              <p class="svc-body">Unlimited telephone and online support available weekdays, 08:00–17:00.</p>
+            </div>
+            <div class="svc-cell">
+              <span class="svc-icon">⚖️</span>
+              <p class="svc-title">Labour &amp; Warranty Covered</p>
+              <p class="svc-body">All labour charges and standard warranty support are included within the SLA.</p>
+            </div>
+            <div class="svc-cell">
+              <span class="svc-icon">↑</span>
+              <p class="svc-title">Software &amp; Firmware Updates</p>
+              <p class="svc-body">Free-issued software and firmware updates applied during scheduled maintenance visits.</p>
+            </div>
+          </div>
+        </div>
+        <!-- Right: Cost + Content Lifecycle -->
+        <div class="svc-right">
+          <div class="svc-cost-box">
+            <p class="svc-cost-lbl">Annual SLA Investment</p>
+            <p class="svc-cost-val">£5,000 – £12,000</p>
+            <p class="svc-cost-note">per annum, ex VAT — final cost confirmed during Discovery Stage based on chosen solution complexity</p>
+          </div>
+          <div style="margin-top:4px;">
+            <p style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--accent-amber);margin-bottom:12px;font-weight:600;">Content Lifecycle — Separate Scope</p>
+            <div class="content-lc">
+              <div class="cl-item">
+                <div class="cl-dot"></div>
+                <div>
+                  <p class="cl-title">Asset Ingestion &amp; Optimisation</p>
+                  <p class="cl-body">Regularly ingesting raw architectural models and optimising them for real-time performance within the live environment.</p>
+                </div>
+              </div>
+              <div class="cl-item">
+                <div class="cl-dot"></div>
+                <div>
+                  <p class="cl-title">Maintaining the "Living" Digital Twin</p>
+                  <p class="cl-body">Rendering new buildings, updated public realms, and fresh fly-throughs as the scheme evolves — the interactive replica always matches the latest physical proposals.</p>
+                </div>
+              </div>
+              <div class="cl-item">
+                <div class="cl-dot"></div>
+                <div>
+                  <p class="cl-title">Future-Proofing</p>
+                  <p class="cl-body">Actively managing the core 3D spatial data so the system is primed for integration with future technologies (VR, mobile apps), extending the value of your initial investment.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 20 — CONTACT & NEXT STEPS
+  ═══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-20">
+    <div class="slide-top-rule"></div>
+    <div class="s20-left">
+      <div class="s20-bg-num">CSD</div>
+      <div style="position:relative;z-index:2;">
+        <!-- Actual CSD logo -->
+        <img src="media/image1.png" alt="Cityscape Digital" style="height:44px;width:auto;opacity:0.9;display:block;margin-bottom:24px;">
+        <div class="amber-rule" style="margin-bottom:20px;"></div>
+        <p class="section-label" style="margin-bottom:16px;">Get in Touch</p>
+        <div class="contact-block">
+          <span class="cb-label">Your Consultant</span>
+          <span class="cb-name">[Consultant Name]</span>
+          <span class="cb-role">[Role] — Cityscape Digital</span>
+        </div>
+        <div class="contact-detail"><span class="cd-label">Email</span><span class="cd-value">[name]@cityscapedigital.co.uk</span></div>
+        <div class="contact-detail"><span class="cd-label">Tel</span><span class="cd-value">[+44 (0)xx xxxx xxxx]</span></div>
+        <div class="contact-detail"><span class="cd-label">Web</span><span class="cd-value">www.cityscapedigital.co.uk</span></div>
+        <p class="cd-addr">Printworks House<br>7 Bermondsey Street<br>London, SE1 2DD</p>
+        <div style="margin-top:32px;padding-top:28px;border-top:1px solid #222;">
+          <p style="font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-amber);font-weight:600;margin-bottom:6px;">Gold Service Partner — Epic Games</p>
+          <p style="font-size:15px;color:var(--text-secondary);font-weight:300;line-height:1.65;">Pioneers in digital real estate consultancy since 2001</p>
+        </div>
+      </div>
+    </div>
+    <div class="s20-right">
+      <p class="section-label" style="margin-bottom:28px;">Recommended Next Steps</p>
+      <div class="next-steps">
+        <div class="ns-item">
+          <span class="ns-num">01</span>
+          <div>
+            <p class="ns-title">Discovery Workshop</p>
+            <p class="ns-body">A half-day session at your site or our studio to review the physical space, define your primary use cases, and establish the most appropriate solution from the portfolio above.</p>
+          </div>
+        </div>
+        <div class="ns-item">
+          <span class="ns-num">02</span>
+          <div>
+            <p class="ns-title">Projection / Technical Study</p>
+            <p class="ns-body">For projection-based options, a full projection study will be conducted to confirm luminance performance under your specific ambient light conditions and room geometry.</p>
+          </div>
+        </div>
+        <div class="ns-item">
+          <span class="ns-num">03</span>
+          <div>
+            <p class="ns-title">Bespoke Proposal &amp; Costings</p>
+            <p class="ns-body">Following the Discovery Workshop, we will issue a tailored proposal with refined costings, a phased delivery programme, and a firm SLA quotation for your chosen solution.</p>
+          </div>
+        </div>
+        <div class="ns-item">
+          <span class="ns-num">04</span>
+          <div>
+            <p class="ns-title">Live Demonstration</p>
+            <p class="ns-body">We invite you to visit our London studio to experience the Canvas Intelligence system and, where possible, a working demonstration using your own development's 3D model.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .slideshow -->
+
+<!-- ═══════════ NAVIGATION BAR ═══════════ -->
+<div class="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>← Prev</button>
+  <div class="slide-dots" id="dots"></div>
+  <span class="slide-counter" id="counter">01 / 20</span>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)">Next →</button>
+</div>
+
+<script>
+  /* ── RIBA WHEEL GENERATOR ──────────────────────────────── */
+  (function() {
+    var svgEl = document.getElementById('riba-wheel');
+    if (!svgEl) return;
+    var NS = 'http://www.w3.org/2000/svg';
+
+    /* Wheel geometry */
+    var cx = 280, cy = 280;   /* centre */
+    var oR = 210;             /* outer radius */
+    var iR = 108;             /* inner radius */
+    var nR = 159;             /* number label radius */
+    var lR = 255;             /* stage-name label radius */
+    var N  = 8;               /* segments */
+    var GAP = 3;              /* degrees between segments */
+
+    /* Stage data */
+    var stages = [
+      { n:'0',    l:'Acquisition\n& Funding',        active:'amber' },
+      { n:'1',    l:'Feasibility',                   active:false   },
+      { n:'2',    l:'Pre-Planning',                  active:'red'   },
+      { n:'3',    l:'Design\nDevelopment',           active:false   },
+      { n:'4–5',  l:'Planning &\nConsultation',      active:'amber' },
+      { n:'6',    l:'Construction',                  active:false   },
+      { n:'7',    l:'Marketing\n& Leasing',          active:'green' },
+      { n:'POST', l:'Asset\nManagement',             active:'amber' }
+    ];
+
+    var COLORS = {
+      amber: { fill:'rgba(255,171,64,0.82)', stroke:'#FFAB40', text:'#000000' },
+      red:   { fill:'rgba(229,115,115,0.72)', stroke:'#E57373', text:'#000000' },
+      green: { fill:'rgba(76,175,147,0.72)',  stroke:'#4CAF93', text:'#000000' }
+    };
+
+    function toRad(d) { return d * Math.PI / 180; }
+    function px(r, d) { return cx + r * Math.sin(toRad(d)); }
+    function py(r, d) { return cy - r * Math.cos(toRad(d)); }
+
+    function mk(tag, attrs) {
+      var e = document.createElementNS(NS, tag);
+      for (var k in attrs) e.setAttribute(k, attrs[k]);
+      return e;
+    }
+
+    /* Outer ambient ring */
+    svgEl.appendChild(mk('circle', {
+      cx: cx, cy: cy, r: oR + 22,
+      fill: 'none', stroke: 'rgba(255,171,64,0.05)', 'stroke-width': '20'
+    }));
+
+    /* Draw segments */
+    stages.forEach(function(s, i) {
+      var slot = 360 / N;
+      var a0 = i * slot + GAP / 2;
+      var a1 = (i + 1) * slot - GAP / 2;
+      var am = i * slot + slot / 2;
+      var col = s.active ? COLORS[s.active] : null;
+
+      /* Segment path */
+      var fillC  = col ? col.fill  : 'rgba(20,20,20,0.96)';
+      var strokeC = col ? col.stroke : '#1a1a1a';
+
+      var path = mk('path', {
+        d: [ 'M', f(px(oR,a0))+','+f(py(oR,a0)),
+             'A', oR+','+oR, '0', '0,1', f(px(oR,a1))+','+f(py(oR,a1)),
+             'L', f(px(iR,a1))+','+f(py(iR,a1)),
+             'A', iR+','+iR, '0', '0,0', f(px(iR,a0))+','+f(py(iR,a0)),
+             'Z' ].join(' '),
+        fill: fillC,
+        stroke: strokeC,
+        'stroke-width': col ? '1.5' : '1'
+      });
+      svgEl.appendChild(path);
+
+      /* Subtle inner glow ring for active segments */
+      if (col) {
+        svgEl.appendChild(mk('path', {
+          d: [ 'M', f(px(oR+3,a0))+','+f(py(oR+3,a0)),
+               'A', (oR+3)+','+(oR+3), '0', '0,1', f(px(oR+3,a1))+','+f(py(oR+3,a1)),
+               'L', f(px(oR,a1))+','+f(py(oR,a1)),
+               'A', oR+','+oR, '0', '0,0', f(px(oR,a0))+','+f(py(oR,a0)),
+               'Z' ].join(' '),
+          fill: col.stroke,
+          opacity: '0.45'
+        }));
+      }
+
+      /* Stage number inside segment */
+      var numSize = s.n.length > 2 ? '12' : s.n.length > 1 ? '15' : '22';
+      var numCol  = col ? col.text : '#585858';
+      var nt = mk('text', {
+        x: f(px(nR, am)), y: f(py(nR, am)),
+        'text-anchor': 'middle', 'dominant-baseline': 'central',
+        fill: numCol,
+        'font-family': 'madefor-text, Helvetica Neue, sans-serif',
+        'font-size': numSize, 'font-weight': '700'
+      });
+      nt.textContent = s.n;
+      svgEl.appendChild(nt);
+
+      /* Connector line from segment to label */
+      var connCol = col ? col.stroke + '55' : '#1e1e1e';
+      svgEl.appendChild(mk('line', {
+        x1: f(px(oR + 6, am)),  y1: f(py(oR + 6, am)),
+        x2: f(px(lR - 14, am)), y2: f(py(lR - 14, am)),
+        stroke: connCol, 'stroke-width': '1'
+      }));
+
+      /* External labels – split on \n */
+      var lx = px(lR, am), ly = py(lR, am);
+      var ta = lx > cx + 12 ? 'start' : lx < cx - 12 ? 'end' : 'middle';
+      var lc = col ? '#e8e8e8' : '#686868';
+      var lw = col ? '600' : '300';
+      var lines = s.l.split('\n');
+      var lineH = 14;
+      var baseY = ly - ((lines.length - 1) * lineH) / 2;
+      lines.forEach(function(line, li) {
+        var lt = mk('text', {
+          x: f(lx), y: f(baseY + li * lineH),
+          'text-anchor': ta, 'dominant-baseline': 'central',
+          fill: lc,
+          'font-family': 'madefor-text, Helvetica Neue, sans-serif',
+          'font-size': '11.5', 'font-weight': lw
+        });
+        lt.textContent = line;
+        svgEl.appendChild(lt);
+      });
+    });
+
+    /* Centre circle */
+    svgEl.appendChild(mk('circle', {
+      cx: cx, cy: cy, r: iR - 6,
+      fill: '#060606', stroke: 'rgba(255,171,64,0.25)', 'stroke-width': '1.5'
+    }));
+
+    /* Centre text */
+    var cTexts = [
+      { text: 'DEVELOPMENT', y: cy - 24, size: '8.5', weight: '400', fill: 'rgba(255,171,64,0.65)', spacing: '4',   font: 'madefor-text, Helvetica Neue, sans-serif' },
+      { text: 'Lifecycle',   y: cy - 6,  size: '20',  weight: '700', fill: '#ffffff',               spacing: '0',   font: 'madefor-display, Helvetica Neue, sans-serif' },
+      { text: 'RIBA Plan of Work', y: cy + 16, size: '8', weight: '300', fill: 'rgba(255,171,64,0.4)', spacing: '1.5', font: 'madefor-text, Helvetica Neue, sans-serif' }
+    ];
+    cTexts.forEach(function(c) {
+      var t = mk('text', {
+        x: cx, y: c.y,
+        'text-anchor': 'middle', 'dominant-baseline': 'central',
+        fill: c.fill,
+        'font-family': c.font,
+        'font-size': c.size, 'font-weight': c.weight,
+        'letter-spacing': c.spacing
+      });
+      t.textContent = c.text;
+      svgEl.appendChild(t);
+    });
+
+    function f(n) { return n.toFixed(1); }
+  })();
+  /* ── END RIBA WHEEL ──────────────────────────────────────── */
+
+  const TOTAL = 20;
+  let current = 1;
+
+  /* Build dots */
+  const dotsEl = document.getElementById('dots');
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.title = 'Slide ' + i;
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    if (n < 1 || n > TOTAL) return;
+    const prevSlide = document.getElementById('slide-' + current);
+    if (prevSlide) { prevSlide.style.display = 'none'; prevSlide.classList.remove('active'); }
+    current = n;
+    const nextSlide = document.getElementById('slide-' + current);
+    if (nextSlide) { nextSlide.style.display = 'flex'; nextSlide.classList.add('active'); }
+
+    /* Update dots */
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i + 1 === current);
+    });
+
+    /* Update counter */
+    document.getElementById('counter').textContent =
+      String(current).padStart(2, '0') + ' / ' + String(TOTAL).padStart(2, '0');
+
+    /* Buttons */
+    document.getElementById('btn-prev').disabled = current === 1;
+    document.getElementById('btn-next').disabled = current === TOTAL;
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  /* Keyboard navigation */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                    { e.preventDefault(); navigate(-1); }
+    if (e.key === 'Home') goTo(1);
+    if (e.key === 'End')  goTo(TOTAL);
+  });
+
+  /* Touch/swipe support */
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+  }, { passive: true });
+
+  /* Init */
+  goTo(1);
+</script>
+</body>
+</html>
+
+
